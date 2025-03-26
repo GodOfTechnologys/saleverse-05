@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from "react";
 import ProductCard, { Product } from "./ProductCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Filter, ShoppingCart } from "lucide-react";
+import { Search, Filter, ShoppingCart, Minus, Plus } from "lucide-react";
 import FadeIn from "../animations/FadeIn";
-import { useToast } from "sonner";
+import { toast } from "sonner";
 
 // Sample mock data
 const mockProducts: Product[] = [
@@ -95,7 +94,7 @@ const ProductGrid = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const toast = useToast();
+  const toast = toast;
   
   // Extract unique categories from products
   const categories = ["All", ...Array.from(new Set(products.map(p => p.category)))];

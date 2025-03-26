@@ -1,6 +1,5 @@
-
 import { Link } from "react-router-dom";
-import { ShoppingCart, Facebook, Twitter, Instagram, GitHub, Mail } from "lucide-react";
+import { ShoppingCart, Facebook, Twitter, Instagram, Github, Mail } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -29,7 +28,7 @@ const Footer = () => {
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="GitHub">
-                <GitHub className="w-5 h-5" />
+                <Github className="w-5 h-5" />
               </a>
             </div>
           </div>
