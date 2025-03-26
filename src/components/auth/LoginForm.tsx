@@ -41,8 +41,12 @@ const LoginForm = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Mock successful login
-      toast.success("Login successful!");
-      navigate("/dashboard");
+      toast.success("Login successful! Redirecting to dashboard...");
+      
+      // Wait a moment before redirecting for better user experience
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1500);
     } catch (error) {
       console.error("Login error:", error);
       toast.error("Login failed. Please check your credentials.");

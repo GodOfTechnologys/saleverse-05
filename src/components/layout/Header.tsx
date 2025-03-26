@@ -78,7 +78,7 @@ const Header = () => {
               </Link>
             </Button>
             <Button asChild className="hidden md:flex">
-              <Link to="/dashboard">Get Started</Link>
+              <Link to="/login">Get Started</Link>
             </Button>
 
             {/* Mobile menu button */}
@@ -119,7 +119,7 @@ const Header = () => {
             </Link>
             <div className="pt-2">
               <Button asChild className="w-full">
-                <Link to="/dashboard">Get Started</Link>
+                <Link to="/login">Get Started</Link>
               </Button>
             </div>
           </div>

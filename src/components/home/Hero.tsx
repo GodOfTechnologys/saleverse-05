@@ -33,7 +33,7 @@ const Hero = () => {
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button asChild size="lg" className="px-8 h-12 rounded-full font-medium">
-                <Link to="/dashboard">
+                <Link to="/login">
                   Get Started <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
