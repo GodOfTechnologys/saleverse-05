@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import ProductCard, { Product } from "./ProductCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Filter, ShoppingCart, Minus, Plus } from "lucide-react";
+import { Search, Filter, ShoppingCart, Minus, Plus, Star, CreditCard, Smartphone } from "lucide-react";
 import FadeIn from "../animations/FadeIn";
 import { toast } from "sonner";
+import PaymentMethodSelector from "./PaymentMethodSelector";
 
 // Sample mock data with real images
 const mockProducts: Product[] = [
@@ -16,7 +17,8 @@ const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&q=80&w=600",
     category: "Electronics",
     description: "High-quality wireless earbuds with noise cancellation and long battery life.",
-    stock: 15
+    stock: 15,
+    isBestSeller: true
   },
   {
     id: "2",
@@ -25,7 +27,8 @@ const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=600",
     category: "Electronics",
     description: "Feature-rich smartwatch with health tracking, notifications, and a sleek design.",
-    stock: 8
+    stock: 8,
+    isBestSeller: true
   },
   {
     id: "3",
@@ -34,7 +37,8 @@ const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1572119865084-43c285814d63?auto=format&fit=crop&q=80&w=600",
     category: "Kitchen",
     description: "Insulated stainless steel coffee mug that keeps your beverages hot or cold for hours.",
-    stock: 22
+    stock: 22,
+    isBestSeller: false
   },
   {
     id: "4",
@@ -43,7 +47,8 @@ const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&q=80&w=600",
     category: "Electronics",
     description: "Ergonomic wireless keyboard with customizable keys and long battery life.",
-    stock: 12
+    stock: 12,
+    isBestSeller: false
   },
   {
     id: "5",
@@ -52,7 +57,8 @@ const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=600",
     category: "Home",
     description: "Set of three scented candles in lavender, vanilla, and sandalwood fragrances.",
-    stock: 18
+    stock: 18,
+    isBestSeller: false
   },
   {
     id: "6",
@@ -61,7 +67,8 @@ const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=600",
     category: "Accessories",
     description: "Genuine leather wallet with multiple card slots and RFID protection.",
-    stock: 7
+    stock: 7,
+    isBestSeller: false
   },
   {
     id: "7",
@@ -70,7 +77,8 @@ const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&q=80&w=600",
     category: "Electronics",
     description: "Portable Bluetooth speaker with 360° sound and 20 hours of battery life.",
-    stock: 9
+    stock: 9,
+    isBestSeller: true
   },
   {
     id: "8",
@@ -79,7 +87,49 @@ const mockProducts: Product[] = [
     image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=600",
     category: "Home",
     description: "Set of three ceramic plant pots in different sizes with drainage holes.",
-    stock: 0
+    stock: 0,
+    isBestSeller: false
+  },
+  // New Best Products
+  {
+    id: "9",
+    name: "Premium Smartphone",
+    price: 899.99,
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=600",
+    category: "Electronics",
+    description: "Latest model smartphone with advanced camera system and powerful processor.",
+    stock: 10,
+    isBestSeller: true
+  },
+  {
+    id: "10",
+    name: "Noise-Cancelling Headphones",
+    price: 299.99,
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=600",
+    category: "Electronics",
+    description: "Premium over-ear headphones with active noise cancellation and 30-hour battery life.",
+    stock: 6,
+    isBestSeller: true
+  },
+  {
+    id: "11",
+    name: "Gaming Console",
+    price: 499.99,
+    image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?auto=format&fit=crop&q=80&w=600",
+    category: "Electronics",
+    description: "Next-gen gaming console with 4K graphics, fast loading, and expanded storage.",
+    stock: 3,
+    isBestSeller: true
+  },
+  {
+    id: "12",
+    name: "Fitness Tracker",
+    price: 129.99,
+    image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&q=80&w=600",
+    category: "Electronics",
+    description: "Advanced fitness tracker with heart rate monitoring, GPS, and sleep analysis.",
+    stock: 15,
+    isBestSeller: true
   }
 ];
 
@@ -95,6 +145,8 @@ const ProductGrid = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [showingBestSellers, setShowingBestSellers] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
   
   // Extract unique categories from products
   const categories = ["All", ...Array.from(new Set(products.map(p => p.category)))];
@@ -114,8 +166,12 @@ const ProductGrid = () => {
       filtered = filtered.filter(p => p.category === selectedCategory);
     }
     
+    if (showingBestSellers) {
+      filtered = filtered.filter(p => p.isBestSeller);
+    }
+    
     setFilteredProducts(filtered);
-  }, [searchTerm, selectedCategory, products]);
+  }, [searchTerm, selectedCategory, products, showingBestSellers]);
   
   const handleAddToCart = (product: Product, quantity: number) => {
     const existingItem = cart.find(item => item.product.id === product.id);
@@ -168,9 +224,19 @@ const ProductGrid = () => {
   };
   
   const handleCheckout = () => {
-    toast.success("Checkout successful! Thank you for your purchase.");
+    if (!selectedPaymentMethod) {
+      toast.warning("Please select a payment method");
+      return;
+    }
+    
+    toast.success(`Checkout successful! Paid with ${selectedPaymentMethod}. Thank you for your purchase.`);
     setCart([]);
     setIsCartOpen(false);
+    setSelectedPaymentMethod(null);
+  };
+  
+  const toggleBestSellers = () => {
+    setShowingBestSellers(!showingBestSellers);
   };
   
   return (
@@ -202,6 +268,14 @@ const ProductGrid = () => {
                 ))}
               </select>
             </div>
+            <Button 
+              variant={showingBestSellers ? "default" : "outline"} 
+              onClick={toggleBestSellers}
+              className="flex items-center gap-1"
+            >
+              <Star className={`h-4 w-4 ${showingBestSellers ? "text-yellow-300 fill-yellow-300" : ""}`} />
+              Best Sellers
+            </Button>
           </div>
           
           {filteredProducts.length === 0 ? (
@@ -209,13 +283,23 @@ const ProductGrid = () => {
               <p className="text-lg text-muted-foreground">No products found. Try a different search term or category.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product, index) => (
-                <FadeIn key={product.id} delay={index * 50}>
-                  <ProductCard product={product} onAddToCart={handleAddToCart} />
-                </FadeIn>
-              ))}
-            </div>
+            <>
+              {showingBestSellers && (
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold mb-4 flex items-center">
+                    <Star className="h-5 w-5 mr-2 text-yellow-400 fill-yellow-400" />
+                    Best Selling Products
+                  </h2>
+                </div>
+              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProducts.map((product, index) => (
+                  <FadeIn key={product.id} delay={index * 50}>
+                    <ProductCard product={product} onAddToCart={handleAddToCart} />
+                  </FadeIn>
+                ))}
+              </div>
+            </>
           )}
         </div>
         
@@ -287,8 +371,29 @@ const ProductGrid = () => {
                   <span>Total:</span>
                   <span>{formatPrice(calculateTotal())}</span>
                 </div>
-                <Button className="w-full" onClick={handleCheckout}>
-                  Checkout
+                
+                <div className="space-y-3">
+                  <h3 className="font-medium">Select Payment Method</h3>
+                  <PaymentMethodSelector 
+                    selectedMethod={selectedPaymentMethod}
+                    onSelectMethod={setSelectedPaymentMethod}
+                  />
+                </div>
+                
+                <Button 
+                  className="w-full" 
+                  onClick={handleCheckout}
+                  disabled={cart.length === 0}
+                >
+                  {selectedPaymentMethod ? (
+                    <>
+                      Pay with {selectedPaymentMethod}
+                      {selectedPaymentMethod === "Credit Card" && <CreditCard className="ml-2 h-4 w-4" />}
+                      {["GPay", "PhonePe", "Paytm"].includes(selectedPaymentMethod || "") && <Smartphone className="ml-2 h-4 w-4" />}
+                    </>
+                  ) : (
+                    "Checkout"
+                  )}
                 </Button>
               </div>
             </>

@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Minus, Plus, Image as ImageIcon } from "lucide-react";
+import { PlusCircle, Minus, Plus, Image as ImageIcon, Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -13,6 +13,7 @@ export interface Product {
   category: string;
   description: string;
   stock: number;
+  isBestSeller?: boolean;
 }
 
 interface ProductCardProps {
@@ -77,12 +78,20 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
           onLoad={() => setImageLoaded(true)}
           loading="lazy"
         />
-        <div className="absolute top-2 right-2 bg-secondary/80 backdrop-blur-sm text-foreground text-xs font-medium py-1 px-2 rounded">
-          {product.stock > 0 ? `In Stock: ${product.stock}` : "Out of Stock"}
-        </div>
-        {product.stock === 0 && (
+        {product.stock > 0 ? (
+          <div className="absolute top-2 right-2 bg-secondary/80 backdrop-blur-sm text-foreground text-xs font-medium py-1 px-2 rounded">
+            In Stock: {product.stock}
+          </div>
+        ) : (
           <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
             <span className="text-white font-bold text-lg">Out of Stock</span>
+          </div>
+        )}
+        
+        {product.isBestSeller && (
+          <div className="absolute top-2 left-2 bg-yellow-500/90 backdrop-blur-sm text-white text-xs font-bold py-1 px-2 rounded-full flex items-center">
+            <Star className="h-3 w-3 mr-1 fill-white" />
+            Best Seller
           </div>
         )}
       </div>
