@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import ProductCard, { Product } from "./ProductCard";
 import { Input } from "@/components/ui/input";
@@ -6,13 +7,13 @@ import { Search, Filter, ShoppingCart, Minus, Plus } from "lucide-react";
 import FadeIn from "../animations/FadeIn";
 import { toast } from "sonner";
 
-// Sample mock data
+// Sample mock data with real images
 const mockProducts: Product[] = [
   {
     id: "1",
     name: "Wireless Earbuds",
     price: 129.99,
-    image: "https://placehold.co/600x400/f0f9ff/0284c7?text=Earbuds",
+    image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&q=80&w=600",
     category: "Electronics",
     description: "High-quality wireless earbuds with noise cancellation and long battery life.",
     stock: 15
@@ -21,7 +22,7 @@ const mockProducts: Product[] = [
     id: "2",
     name: "Smart Watch",
     price: 249.99,
-    image: "https://placehold.co/600x400/f0f4ff/1e40af?text=Watch",
+    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=600",
     category: "Electronics",
     description: "Feature-rich smartwatch with health tracking, notifications, and a sleek design.",
     stock: 8
@@ -30,7 +31,7 @@ const mockProducts: Product[] = [
     id: "3",
     name: "Premium Coffee Mug",
     price: 24.99,
-    image: "https://placehold.co/600x400/fffbeb/b45309?text=Coffee+Mug",
+    image: "https://images.unsplash.com/photo-1572119865084-43c285814d63?auto=format&fit=crop&q=80&w=600",
     category: "Kitchen",
     description: "Insulated stainless steel coffee mug that keeps your beverages hot or cold for hours.",
     stock: 22
@@ -39,7 +40,7 @@ const mockProducts: Product[] = [
     id: "4",
     name: "Wireless Keyboard",
     price: 89.99,
-    image: "https://placehold.co/600x400/f0fdf4/16a34a?text=Keyboard",
+    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&q=80&w=600",
     category: "Electronics",
     description: "Ergonomic wireless keyboard with customizable keys and long battery life.",
     stock: 12
@@ -48,7 +49,7 @@ const mockProducts: Product[] = [
     id: "5",
     name: "Scented Candle Set",
     price: 34.99,
-    image: "https://placehold.co/600x400/fdf2f8/be185d?text=Candles",
+    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=600",
     category: "Home",
     description: "Set of three scented candles in lavender, vanilla, and sandalwood fragrances.",
     stock: 18
@@ -57,7 +58,7 @@ const mockProducts: Product[] = [
     id: "6",
     name: "Leather Wallet",
     price: 59.99,
-    image: "https://placehold.co/600x400/f8fafc/475569?text=Wallet",
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=600",
     category: "Accessories",
     description: "Genuine leather wallet with multiple card slots and RFID protection.",
     stock: 7
@@ -66,7 +67,7 @@ const mockProducts: Product[] = [
     id: "7",
     name: "Bluetooth Speaker",
     price: 79.99,
-    image: "https://placehold.co/600x400/ecfdf5/0f766e?text=Speaker",
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&q=80&w=600",
     category: "Electronics",
     description: "Portable Bluetooth speaker with 360° sound and 20 hours of battery life.",
     stock: 9
@@ -75,7 +76,7 @@ const mockProducts: Product[] = [
     id: "8",
     name: "Plant Pot Set",
     price: 42.99,
-    image: "https://placehold.co/600x400/f0fdfa/0d9488?text=Plant+Pots",
+    image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=600",
     category: "Home",
     description: "Set of three ceramic plant pots in different sizes with drainage holes.",
     stock: 0
