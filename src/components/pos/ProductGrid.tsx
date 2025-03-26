@@ -94,7 +94,6 @@ const ProductGrid = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const toast = toast;
   
   // Extract unique categories from products
   const categories = ["All", ...Array.from(new Set(products.map(p => p.category)))];
