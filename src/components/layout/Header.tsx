@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart, LogIn } from "lucide-react";
 import ThemeSwitcher from "../ui/ThemeSwitcher";
 
 const Header = () => {
@@ -71,6 +71,12 @@ const Header = () => {
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
             <ThemeSwitcher />
+            <Button asChild variant="outline" className="hidden md:flex">
+              <Link to="/login" className="flex items-center gap-2">
+                <LogIn className="h-4 w-4" />
+                Sign In
+              </Link>
+            </Button>
             <Button asChild className="hidden md:flex">
               <Link to="/dashboard">Get Started</Link>
             </Button>
@@ -104,6 +110,13 @@ const Header = () => {
                 {link.name}
               </Link>
             ))}
+            <Link 
+              to="/login"
+              className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary transition-colors duration-200 flex items-center gap-2"
+            >
+              <LogIn className="h-4 w-4" />
+              Sign In
+            </Link>
             <div className="pt-2">
               <Button asChild className="w-full">
                 <Link to="/dashboard">Get Started</Link>

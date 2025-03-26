@@ -23,6 +23,7 @@ interface ProductCardProps {
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   const increaseQuantity = () => {
     if (quantity < product.stock) {
@@ -50,6 +51,10 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       currency: 'USD',
     }).format(price);
   };
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
   
   return (
     <Card 
@@ -59,9 +64,10 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
     >
       <div className="relative overflow-hidden h-48">
         <img 
-          src={product.image} 
+          src={imageError ? 'https://placehold.co/600x400/e2e8f0/64748b?text=Product+Image' : product.image} 
           alt={product.name} 
           className={`w-full h-full object-cover transition-transform duration-700 ${isHovered ? 'scale-110' : 'scale-100'}`}
+          onError={handleImageError}
         />
         <div className="absolute top-2 right-2 bg-secondary/80 backdrop-blur-sm text-foreground text-xs font-medium py-1 px-2 rounded">
           {product.stock > 0 ? `In Stock: ${product.stock}` : "Out of Stock"}
